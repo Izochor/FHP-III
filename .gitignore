@@ -1,0 +1,6 @@
+test/
+.vscode/
+
+*.o
+*.eps
+*.dat
