@@ -2,10 +2,8 @@
 #include <gsl/gsl_rng.h>
 #include <time.h>
 
-#include "init.h"
-#include "utils.h"
-
-#define iterations 10
+#include "init.hpp"
+#include "utils.hpp"
 
 unsigned char collide(unsigned char inState, unsigned char table[3][161]){
 
@@ -53,20 +51,20 @@ void propagate(unsigned char board[height][width], unsigned char temp[height][wi
 
 int main()
 {
-    std::cout << GREEN << "START" << std::endl;
+    std::cout << BOLDGREEN << "START" << RESET << std::endl;
 
     unsigned char table[3][161];
     initTable(table);
-    std::cout << GREEN << "TABLE READY" << std::endl;
+    std::cout << GREEN << "TABLE READY" << RESET << std::endl;
 
     unsigned char board[height][width];
     initBoard(board);
     std::cout << GREEN << "BOARD READY" << RESET << std::endl;
 
-    printOut(board);
+    // printOut(board);
     plotData(board,0);
 
-    std::cout << BLUE << "PROPAGATION + COLLISION TEST: " << iterations << " ITERATIONS" << RESET << std::endl;
+    std::cout << BLUE << "PROPAGATION + COLLISION: " << iterations << " ITERATIONS" << RESET << std::endl;
 
     for(int iters = 1;iters<=iterations;iters++){
         unsigned char blank[height][width];
@@ -78,7 +76,7 @@ int main()
             }
         }
 
-        printOut(blank);
+        // printOut(blank);
 
         for(int i=0;i<height;i++){
             for(int j=0;j<width;j++){
@@ -92,9 +90,10 @@ int main()
             }
         }
 
-        printOut(board);
+        // printOut(board);
         plotData(board,iters);
-        std::cout << iters << "------------------------------------------" << std::endl;
+        // std::cout << iters << "------------------------------------------" << std::endl;
     }
+    std::cout << BOLDGREEN << "END" << RESET << std::endl;
     return 0;
 }

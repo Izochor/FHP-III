@@ -1,4 +1,4 @@
-#include "utils.h"
+#include "utils.hpp"
 #include <string>
 
 void printOut(unsigned char board[height][width]){

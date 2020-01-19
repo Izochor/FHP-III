@@ -1,4 +1,4 @@
-#include "init.h"
+#include "init.hpp"
 
 void initTable(unsigned char table[3][161]){
     for (int i=0;i<161;i++){

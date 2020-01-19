@@ -3,7 +3,7 @@
 
 #include <iostream>
 #include <fstream>
-#include "init.h"
+#include "init.hpp"
 
 #define RESET   "\033[0m"
 #define BLACK   "\033[30m"      /* Black */

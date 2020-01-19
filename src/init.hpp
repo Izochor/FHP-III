@@ -3,6 +3,7 @@
 
 #define height 7
 #define width 15
+#define iterations 10
 
 void initTable(unsigned char table[3][161]);
 void initBoard(unsigned char board[height][width]);
