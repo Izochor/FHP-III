@@ -1,4 +1,5 @@
 #include "utils.h"
+#include <string>
 
 void printOut(unsigned char board[height][width]){
     for(int i=0;i<height;i++){
@@ -18,9 +19,10 @@ void printOut(unsigned char board[height][width]){
 
 void plotData(unsigned char board[height][width], int iteration)
 {
+    std::string filename = "data/data"+std::to_string(iteration)+".dat";
     std::ofstream myfile;
-    myfile.open ("data.txt");
-    myfile << "#X\tY" << std::endl;
+    myfile.open (filename.c_str());
+    // myfile << "#X\tY" << std::endl;
     for(int i=0;i<height;i++){
         for(int j=0;j<width;j++){
             if(board[i][j]){

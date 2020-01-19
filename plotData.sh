@@ -4,4 +4,4 @@ reset
 set term epscairo enhanced color
 set output "plot.eps"
 
-plot 'data.txt' w p ls 7 lc 'black'notitle
+plot 'data.dat' w p ls 7 lc 'black'notitle

@@ -64,10 +64,11 @@ int main()
     std::cout << GREEN << "BOARD READY" << RESET << std::endl;
 
     printOut(board);
+    plotData(board,0);
 
     std::cout << BLUE << "PROPAGATION + COLLISION TEST: " << iterations << " ITERATIONS" << RESET << std::endl;
 
-    for(int iters = 0;iters<iterations;iters++){
+    for(int iters = 1;iters<=iterations;iters++){
         unsigned char blank[height][width];
         initBlankBoard(blank);
 
@@ -92,8 +93,8 @@ int main()
         }
 
         printOut(board);
+        plotData(board,iters);
         std::cout << iters << "------------------------------------------" << std::endl;
-        plotData(board,0);
     }
     return 0;
 }

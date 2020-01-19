@@ -1,6 +1,11 @@
 test/
 .vscode/
 
+# exec
 *.o
+# plots
 *.eps
+*.png
+*.gif
+# data
 *.dat
