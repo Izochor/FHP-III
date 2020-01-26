@@ -2,10 +2,11 @@ import matplotlib.pyplot as plt
 import imageio
 import csv
 
-nData = 0
+nData = 10000
 datafiles = []
 for i in range(0,nData+1):
-    print("plotting",i)
+    if(i%100 == 0):
+        print("plotting",i)
     # datafiles.append("data/data"+str(i)+".dat")
 
     # f = open("data/data"+str(i)+".dat", "r")

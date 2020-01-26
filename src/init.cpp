@@ -218,25 +218,27 @@ void initBoard(unsigned char board[height][width]){
     for (int i=0;i<60;i++){
         randX = gsl_rng_uniform_int(r,20);
         randY = gsl_rng_uniform_int(r,height-1) + 1;
-        randDir = gsl_rng_uniform_int(r,8);
+        randDir = gsl_rng_uniform_int(r,6);
 
-        while(board[randY][randX] == 2){
+        while(bitCheck(board[randY][randX],randDir) == 1){
             randX = gsl_rng_uniform_int(r,20);
-            randY = gsl_rng_uniform_int(r,height-1) + 1;   
+            randY = gsl_rng_uniform_int(r,height-1) + 1;  
+            randDir = gsl_rng_uniform_int(r,6);
         }
-        board[randY][randX] = 2;
+        bitSet(board[randY][randX],randDir);
     }
 
     for (int i=0;i<40;i++){
-        randX = gsl_rng_uniform_int(r,20)+100;
+        randX = gsl_rng_uniform_int(r,20)+200;
         randY = gsl_rng_uniform_int(r,height-1) + 1;
-        randDir = gsl_rng_uniform_int(r,8);
+        randDir = gsl_rng_uniform_int(r,6);
 
-        while(board[randY][randX] == 2){
-            randX = gsl_rng_uniform_int(r,20)+100;
-            randY = gsl_rng_uniform_int(r,height-1) + 1;   
+        while(bitCheck(board[randY][randX],randDir) == 1){
+            randX = gsl_rng_uniform_int(r,20)+200;
+            randY = gsl_rng_uniform_int(r,height-1) + 1;  
+            randDir = gsl_rng_uniform_int(r,6);
         }
-        board[randY][randX] = 2;
+        bitSet(board[randY][randX],randDir);
     }
 }
 
@@ -250,4 +252,27 @@ void initBlankBoard(unsigned char board[height][width]){
     //     board[0][j] = 128;
     //     board[height-1][j] = 128;
     // }
+}
+
+int checkNodes(unsigned char board[height][width], int x, int y, int xStart, int yStart){
+    int fullNodes = 0;
+    for(int i=yStart;i<y;i++){
+        for(int j=xStart;j<x;j++){
+            for(int k=0;k<7;k++)
+            fullNodes += bitCheck(board[i][j],k);
+        }
+    }
+    return fullNodes;
+}
+
+bool bitCheck(unsigned char& node, int direction){
+    return node & (1 << direction); 
+}
+
+void bitSet(unsigned  char&  node , int pos){
+    node |= (1 << pos);
+}
+
+void bitClear(unsigned char& node, int pos){
+    node &= !(1 << pos);
 }

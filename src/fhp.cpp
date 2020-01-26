@@ -10,18 +10,6 @@ unsigned char collide(unsigned char inState, unsigned char table[3][162], int ra
     return table[rand+1][inState];
 }
 
-bool bitCheck(unsigned char& node, int direction){
-    return node & (1 << direction); 
-}
-
-void bitSet(unsigned  char&  node , int pos){
-    node |= (1 << pos);
-}
-
-void bitClear(unsigned char& node, int pos){
-    node &= !(1 << pos);
-}
-
 void propagate(unsigned char board[height][width], unsigned char temp[height][width],int y, int x){
     int move = y%2; //przemienność względem parzystości linijki
     if(bitCheck(board[y+1][x+move-1],0)){//1 dobrze!
@@ -130,6 +118,13 @@ double N_i(unsigned char node){
 int main()
 {
     std::cout << BOLDGREEN << "START" << RESET << std::endl;
+    
+    int randX = 0;
+    int randY = 0;
+    int randDir = 0;
+    int rand = 0;
+
+    std::cout << GREEN << "VARIABLES READY" << RESET << std::endl;
 
     unsigned char table[3][162];
     initTable(table);
@@ -142,12 +137,13 @@ int main()
     //inicjalizacja generatora liczby losowej
     gsl_rng *r = gsl_rng_alloc(gsl_rng_mt19937);//ran3,r250,mt19937
     gsl_rng_set(r,time(NULL));
-    int rand = 0;
 
     std::cout << GREEN << "RANDOMNESS READY" << RESET << std::endl;
 
     // printOut(board);
     plotData(board,0);
+    std::cout << checkNodes(board,20,height) << std::endl;
+    std::cout << checkNodes(board,width,height,width-20) << std::endl;
 
     std::cout << BLUE << "PROPAGATION + COLLISION: " << iterations << " ITERATIONS" << RESET << std::endl;
     unsigned char blank[height][width];
@@ -174,7 +170,39 @@ int main()
             }
         }
 
-        // plotData(board,iters);
+        int leftNodes = checkNodes(board,20,height); //make even number of nodes
+        if( leftNodes < 60){
+            for (int i=0;i<60-leftNodes;i++){
+                randX = gsl_rng_uniform_int(r,20);
+                randY = gsl_rng_uniform_int(r,height-1) + 1;
+                randDir = gsl_rng_uniform_int(r,6);
+
+                while(bitCheck(board[randY][randX],randDir) == 1){
+                    randX = gsl_rng_uniform_int(r,20);
+                    randY = gsl_rng_uniform_int(r,height-1) + 1;  
+                    randDir = gsl_rng_uniform_int(r,6);
+                }
+                bitSet(board[randY][randX],randDir);
+            }
+        }
+
+        int rightNodes = checkNodes(board,width,height,width-20); 
+        if( rightNodes < 40){
+            for (int i=0;i<60-leftNodes;i++){
+                randX = gsl_rng_uniform_int(r,20)+200;
+                randY = gsl_rng_uniform_int(r,height-1) + 1;
+                randDir = gsl_rng_uniform_int(r,6);
+
+                while(bitCheck(board[randY][randX],randDir) == 1){
+                    randX = gsl_rng_uniform_int(r,20)+200;
+                    randY = gsl_rng_uniform_int(r,height-1) + 1;  
+                    randDir = gsl_rng_uniform_int(r,6);
+                }
+                bitSet(board[randY][randX],randDir);
+            }
+        }
+
+        plotData(board,iters);
         // std::cout << iters << "/" << iterations << std::endl;
     }
     std::cout << BOLDGREEN << "END" << RESET << std::endl;
