@@ -1,9 +1,8 @@
-# import numpy as np
 import matplotlib.pyplot as plt
 import imageio
 import csv
 
-nData = 10
+nData = 0
 datafiles = []
 for i in range(0,nData+1):
     print("plotting",i)

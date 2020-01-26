@@ -1,11 +1,14 @@
 #ifndef INIT_H
 #define INIT_H
 
-#define height 7
-#define width 15
-#define iterations 10
+#include <gsl/gsl_rng.h>
+#include <time.h>
 
-void initTable(unsigned char table[3][161]);
+#define height 60
+#define width 120
+#define iterations 1
+
+void initTable(unsigned char table[3][162]);
 void initBoard(unsigned char board[height][width]);
 void initBlankBoard(unsigned char board[height][width]);
 

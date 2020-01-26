@@ -1,7 +1,7 @@
 #include "init.hpp"
 
-void initTable(unsigned char table[3][161]){
-    for (int i=0;i<161;i++){
+void initTable(unsigned char table[3][162]){
+    for (int i=0;i<162;i++){
         table[0][i] = i;
         table[1][i] = i;
     }
@@ -136,13 +136,15 @@ void initTable(unsigned char table[3][161]){
     table[1][127] = 127;
     table[1][128] = 128;
     table[1][129] = 136;
-    // table[1][130] = 144;
-    // table[1][132] = 160;
-    // table[1][136] = 129;
-    // table[1][144] = 130;
-    // table[1][160] = 132;
+    table[1][130] = 144;//zakomentowane?
+    table[1][132] = 160;//zakomentowane?
+    table[1][136] = 129;//zakomentowane?
+    table[1][140] = 161;
+    table[1][144] = 130;//zakomentowane?
+    table[1][160] = 132;//zakomentowane?
+    table[1][161] = 140;
 
-    for (int i=0;i<161;i++){
+    for (int i=0;i<162;i++){
         table[2][i]=table[1][i];
     }
 
@@ -204,13 +206,38 @@ void initBoard(unsigned char board[height][width]){
     }
     for(int j=0;j<width;j++){
         board[0][j] = 128;
-        board[height-1][j] = 128;
+        board[height-1][j] = 128; // pipe
     }
-    for(int i=1;i<height-1;i++){
-        board[i][0] = 2;
-        board[i][4] = 16;
+
+    gsl_rng *r = gsl_rng_alloc(gsl_rng_mt19937);//ran3,r250,mt19937
+    gsl_rng_set(r,time(NULL));
+    int randX = 0;
+    int randY = 0;
+    int randDir = 0;
+
+    for (int i=0;i<60;i++){
+        randX = gsl_rng_uniform_int(r,20);
+        randY = gsl_rng_uniform_int(r,height-1) + 1;
+        randDir = gsl_rng_uniform_int(r,8);
+
+        while(board[randY][randX] == 2){
+            randX = gsl_rng_uniform_int(r,20);
+            randY = gsl_rng_uniform_int(r,height-1) + 1;   
+        }
+        board[randY][randX] = 2;
     }
-    //  board[3][0] = 7;
+
+    for (int i=0;i<40;i++){
+        randX = gsl_rng_uniform_int(r,20)+100;
+        randY = gsl_rng_uniform_int(r,height-1) + 1;
+        randDir = gsl_rng_uniform_int(r,8);
+
+        while(board[randY][randX] == 2){
+            randX = gsl_rng_uniform_int(r,20)+100;
+            randY = gsl_rng_uniform_int(r,height-1) + 1;   
+        }
+        board[randY][randX] = 2;
+    }
 }
 
 void initBlankBoard(unsigned char board[height][width]){
@@ -219,8 +246,8 @@ void initBlankBoard(unsigned char board[height][width]){
             board[i][j] = 0;
         }
     }
-    for(int j=0;j<width;j++){
-        board[0][j] = 128;
-        board[height-1][j] = 128;
-    }
+    // for(int j=0;j<width;j++){
+    //     board[0][j] = 128;
+    //     board[height-1][j] = 128;
+    // }
 }
