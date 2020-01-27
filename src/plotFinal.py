@@ -1,8 +1,12 @@
 import matplotlib.pyplot as plt
+import numpy as np
 import imageio
 import csv
 
-i = 0
+def func(x, a, b, c):
+    return a * x**2 + b*x +c
+
+i = 1
 with open("final/final"+str(i)+".dat", "r") as csvfile:
     plots = csv.reader(csvfile, delimiter='\t')
     x = []

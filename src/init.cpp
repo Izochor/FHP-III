@@ -205,8 +205,8 @@ void initBoard(unsigned char board[height][width]){
         }
     }
     for(int j=0;j<width;j++){
-        board[0][j] = 128;
-        board[height-1][j] = 128; // pipe
+        board[1][j] = 128;
+        board[height-2][j] = 128; // pipe
     }
 
     gsl_rng *r = gsl_rng_alloc(gsl_rng_mt19937);//ran3,r250,mt19937
@@ -216,12 +216,12 @@ void initBoard(unsigned char board[height][width]){
     int randDir = 0;
 
     for (int i=0;i<leftDens;i++){
-        randX = gsl_rng_uniform_int(r,20);
+        randX = gsl_rng_uniform_int(r,20) + 1;
         randY = gsl_rng_uniform_int(r,height-1) + 1;
         randDir = gsl_rng_uniform_int(r,6);
 
         while(bitCheck(board[randY][randX],randDir) == 1){
-            randX = gsl_rng_uniform_int(r,20);
+            randX = gsl_rng_uniform_int(r,20) +1;
             randY = gsl_rng_uniform_int(r,height-1) + 1;  
             randDir = gsl_rng_uniform_int(r,6);
         }
@@ -229,12 +229,12 @@ void initBoard(unsigned char board[height][width]){
     }
 
     for (int i=0;i<rightDens;i++){
-        randX = gsl_rng_uniform_int(r,20)+width-20;
+        randX = gsl_rng_uniform_int(r,20)+width-21;
         randY = gsl_rng_uniform_int(r,height-1) + 1;
         randDir = gsl_rng_uniform_int(r,6);
 
         while(bitCheck(board[randY][randX],randDir) == 1){
-            randX = gsl_rng_uniform_int(r,20)+width-20;
+            randX = gsl_rng_uniform_int(r,20)+width-21;
             randY = gsl_rng_uniform_int(r,height-1) + 1;  
             randDir = gsl_rng_uniform_int(r,6);
         }
@@ -275,4 +275,11 @@ void bitSet(unsigned  char&  node , int pos){
 
 void bitClear(unsigned char& node, int pos){
     node &= !(1 << pos);
+}
+
+void destroy(unsigned char board[height][width]){
+    for(int i=0;i<height;i++){
+        board[i][0] = 0;
+        board[i][width-1] = 0;
+    }
 }

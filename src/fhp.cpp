@@ -88,8 +88,8 @@ double velocityField(unsigned char board[height][width], int minY){
         }
     }
     std::cout << minY << "\t" << minY+6<< "\t";
-    std::cout <<"vx: "<< vx << "\t\t bar{vx}: " << vx/nParticles;
-    std::cout << "\t\t vy: " <<  vy  << "\t\t bar{vy}: " << vy/nParticles << std::endl;
+    std::cout <<"vx: "<< vx << "\t\t <vx>: " << vx/nParticles;
+    std::cout << "\t\t vy: " <<  vy  << "\t\t <vy>: " << vy/nParticles << std::endl;
     return vx/nParticles;
 }
 
@@ -148,15 +148,15 @@ int main()
             }
         }
 
-        int leftNodes = checkNodes(board,20,height); //check number of nodes
+        int leftNodes = checkNodes(board,21,height,1); //check number of nodes
         if( leftNodes < leftDens){
             for (int i=0;i<leftDens-leftNodes;i++){
-                randX = gsl_rng_uniform_int(r,20);
+                randX = gsl_rng_uniform_int(r,20) + 1;
                 randY = gsl_rng_uniform_int(r,height-1) + 1;
                 randDir = gsl_rng_uniform_int(r,6);
 
                 while(bitCheck(board[randY][randX],randDir) == 1){
-                    randX = gsl_rng_uniform_int(r,20);
+                    randX = gsl_rng_uniform_int(r,20) + 1;
                     randY = gsl_rng_uniform_int(r,height-1) + 1;  
                     randDir = gsl_rng_uniform_int(r,6);
                 }
@@ -164,15 +164,15 @@ int main()
             }
         }
 
-        int rightNodes = checkNodes(board,width,height,width-20); 
+        int rightNodes = checkNodes(board,width-1,height,width-21); 
         if( rightNodes < rightDens){
             for (int i=0;i<rightDens-rightNodes;i++){
-                randX = gsl_rng_uniform_int(r,20)+width-20;
+                randX = gsl_rng_uniform_int(r,20)+width-21;
                 randY = gsl_rng_uniform_int(r,height-1) + 1;
                 randDir = gsl_rng_uniform_int(r,6);
 
                 while(bitCheck(board[randY][randX],randDir) == 1){
-                    randX = gsl_rng_uniform_int(r,20)+width-20;
+                    randX = gsl_rng_uniform_int(r,20)+width-21;
                     randY = gsl_rng_uniform_int(r,height-1) + 1;  
                     randDir = gsl_rng_uniform_int(r,6);
                 }
@@ -181,7 +181,9 @@ int main()
         }
 
         plotData(board,iters);
-        // std::cout << iters << "/" << iterations << std::endl;
+        if(iters%100 == 0){
+        std::cout << iters << "/" << iterations << std::endl;
+        }
     }
     std::cout << GREEN << "FLOW READY" << RESET << std::endl;
 
@@ -191,7 +193,7 @@ int main()
         arrVel[0][i] = i;
         arrVel[1][i] = velocityField(board,y);
     }
-    plotFinal(arrVel,0);
+    plotFinal(arrVel,1);
     std::cout << GREEN << "FLOW DATA READY" << RESET << std::endl;
     std::cout << BOLDGREEN << "END" << RESET << std::endl;
     return 0;
