@@ -4,9 +4,11 @@
 #include <gsl/gsl_rng.h>
 #include <time.h>
 
-#define height 60
-#define width 220
+#define height 62
+#define width 420
 #define iterations 10000
+#define leftDens 240
+#define rightDens 80
 
 void initTable(unsigned char table[3][162]);
 void initBoard(unsigned char board[height][width]);
