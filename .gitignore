@@ -9,3 +9,4 @@ test/
 *.gif
 # data
 *.dat
+*.log
