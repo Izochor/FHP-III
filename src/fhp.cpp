@@ -87,9 +87,9 @@ double velocityField(unsigned char board[height][width], int minY){
             }          
         }
     }
-    std::cout << minY << "\t" << minY+6<< "\t";
-    std::cout <<"vx: "<< vx << "\t\t <vx>: " << vx/nParticles;
-    std::cout << "\t\t vy: " <<  vy  << "\t\t <vy>: " << vy/nParticles << std::endl;
+    // std::cout << minY << "\t" << minY+6<< "\t";
+    // std::cout <<"vx: "<< vx << "\t\t <vx>: " << vx/nParticles;
+    // std::cout << "\t\t vy: " <<  vy  << "\t\t <vy>: " << vy/nParticles << std::endl;
     return vx/nParticles;
 }
 
@@ -101,6 +101,8 @@ int main()
     int randY = 0;
     int randDir = 0;
     int rand = 0;
+    double arrVel[1000][10];
+    int nArrVel = 0;
 
     std::cout << GREEN << "VARIABLES READY" << RESET << std::endl;
 
@@ -141,6 +143,8 @@ int main()
             }
         }
 
+        destroy(board); // destroy wandering particles
+
         for(int i=0;i<height;i++){
             for(int j=0;j<width;j++){
                 rand = gsl_rng_uniform_int(r,2);
@@ -152,12 +156,12 @@ int main()
         if( leftNodes < leftDens){
             for (int i=0;i<leftDens-leftNodes;i++){
                 randX = gsl_rng_uniform_int(r,20) + 1;
-                randY = gsl_rng_uniform_int(r,height-1) + 1;
+                randY = gsl_rng_uniform_int(r,height-2) + 1;
                 randDir = gsl_rng_uniform_int(r,6);
 
                 while(bitCheck(board[randY][randX],randDir) == 1){
                     randX = gsl_rng_uniform_int(r,20) + 1;
-                    randY = gsl_rng_uniform_int(r,height-1) + 1;  
+                    randY = gsl_rng_uniform_int(r,height-2) + 1;  
                     randDir = gsl_rng_uniform_int(r,6);
                 }
                 bitSet(board[randY][randX],randDir);
@@ -168,16 +172,23 @@ int main()
         if( rightNodes < rightDens){
             for (int i=0;i<rightDens-rightNodes;i++){
                 randX = gsl_rng_uniform_int(r,20)+width-21;
-                randY = gsl_rng_uniform_int(r,height-1) + 1;
+                randY = gsl_rng_uniform_int(r,height-2) + 1;
                 randDir = gsl_rng_uniform_int(r,6);
 
                 while(bitCheck(board[randY][randX],randDir) == 1){
                     randX = gsl_rng_uniform_int(r,20)+width-21;
-                    randY = gsl_rng_uniform_int(r,height-1) + 1;  
+                    randY = gsl_rng_uniform_int(r,height-2) + 1;  
                     randDir = gsl_rng_uniform_int(r,6);
                 }
                 bitSet(board[randY][randX],randDir);
             }
+        }
+
+        if(iters>measurement){
+            for(int y=1, i=0;y<height-1;y+=6,i++){
+                arrVel[nArrVel][i] = velocityField(board,y);
+            }
+            nArrVel++;
         }
 
         plotData(board,iters);
@@ -187,78 +198,19 @@ int main()
     }
     std::cout << GREEN << "FLOW READY" << RESET << std::endl;
 
-    double arrVel[2][10];
+    double arrVelFinal[2][10];
 
-    for(int y=1, i=0;y<height-1;y+=6,i++){
-        arrVel[0][i] = i;
-        arrVel[1][i] = velocityField(board,y);
+    for(int k =0;k<(height-2)/6;k++){
+        arrVelFinal[0][k] = k+0.5;
+        arrVelFinal[1][k] = 0;
+        for(int i=0;i<1000;i++){
+            arrVelFinal[1][k] += arrVel[i][k];
+        }
+        arrVelFinal[1][k] /= 1000;
     }
-    plotFinal(arrVel,1);
+    plotFinal(arrVelFinal,11);
+
     std::cout << GREEN << "FLOW DATA READY" << RESET << std::endl;
     std::cout << BOLDGREEN << "END" << RESET << std::endl;
     return 0;
 }
-
-// double d(unsigned char board[height][width], int x, int y){
-//     int move = y%2; //przemienność względem parzystości linijki
-//     if(bitCheck(board[y+1][x+move-1],0)){//1 dobrze!
-
-//     }
-//     if(bitCheck(board[y][x-1],1)){//2 dobrze!
-
-//     }
-//     if(bitCheck(board[y-1][x+move-1],2)){//4 dobrze!
-
-//     }
-//     if(bitCheck(board[y-1][x+move],3)){//8 dobrze!
-
-//     }
-//     if(bitCheck(board[y][x+1],4)){//16 dobrze!
-
-//     }
-//     if(bitCheck(board[y+1][x+move],5)){//32 dobrze!
-
-//     }    
-// }
-
-// void velocityField(unsigned char board[height][width]){
-//     for(int x=0;x<height;x++){
-//         for(int y=0;y<width;y++){
-//             float vx = 0;
-//             float vy = 0;
-//             if(bitCheck(board[y][x],0)){//1 dobrze!
-//                 vx += 0.5;
-//                 vy += 0.866;
-//             }
-//             if(bitCheck(board[y][x],1)){//2 dobrze!
-//                 vx += 1;
-//             }
-//             if(bitCheck(board[y][x],2)){//4 dobrze!
-//                 vx += 0.5;
-//                 vy -= 0.866;
-//             }
-//             if(bitCheck(board[y][x],3)){//8 dobrze!
-//                 vx -= 0.5;
-//                 vy -= 0.866;
-//             }
-//             if(bitCheck(board[y][x],4)){//16 dobrze!
-//                 vx -= 1;
-//             }
-//             if(bitCheck(board[y][x],5)){//32 dobrze!
-//                 vx -= 0.5;
-//                 vy += 0.866;
-//             }          
-//         }
-//     }
-// }
-
-// double N_i(unsigned char node){
-//     double answer = 0;
-//     for(int i = 0; i<7;i++){
-//         if(bitCheck(node,i)){
-//             answer +=1;
-//         }
-//     }
-//     answer /= 7;
-//     return answer;
-// }

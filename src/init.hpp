@@ -7,6 +7,7 @@
 #define height 62
 #define width 422
 #define iterations 10000
+#define measurement 9000
 #define leftDens 600
 #define rightDens 300
 

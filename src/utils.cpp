@@ -27,10 +27,10 @@ void plotData(unsigned char board[height][width], int iteration)
         for(int j=0;j<width;j++){
             if(board[i][j]){
                 if(i%2){
-                    myfile << static_cast<double>(j)+0.5 << "\t" << static_cast<double>(i)*0.866 << std::endl;
+                    myfile << static_cast<double>(j)+0.5 << "\t" << static_cast<double>(i)*0.866 << "\t" << +board[i][j] << std::endl;
                 }
                 else{
-                    myfile << j << "\t" << static_cast<double>(i)*0.866 << std::endl;;
+                    myfile << j << "\t" << static_cast<double>(i)*0.866 << "\t" << +board[i][j] << std::endl;;
                 }
             }
         }

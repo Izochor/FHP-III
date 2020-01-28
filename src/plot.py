@@ -11,10 +11,12 @@ for i in range(0,nData+1):
         plots = csv.reader(csvfile, delimiter='\t')
         x = []
         y = []
+        value = []
         for row in plots:
             x.append(float(row[0]))
             y.append(float(row[1]))
+            value.append(float(row[2]))
 
-        plt.scatter(x,y,c="black")
+        plt.scatter(x,y,c=value)
         plt.savefig("plots/plot"+str(i)+".png")
         plt.cla()
