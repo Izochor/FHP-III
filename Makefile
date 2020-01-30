@@ -1,16 +1,34 @@
 CC = g++
-TARGET = fhp.o
-INCPATH = /home/izochor/Pobrane/gsl/include
-LIBS = /home/izochor/Pobrane/gsl/lib
-FLAGS = -lgsl -lgslcblas -lm
+DESTDIR = build
+TARGET = $(DESTDIR)/sim
+INCPATH = -I/home/izochor/Pobrane/gsl/include
+LIBS = -L/home/izochor/Pobrane/gsl/lib
 STDVER = c++11
+FLAGS = -lgsl -lgslcblas -lm -std=$(STDVER)
 
-FILES = src/fhp.cpp \
-		src/init.cpp \
-		src/utils.cpp 
+SOURCES = src/init.cpp \
+		  src/utils.cpp \
+		  src/fhp.cpp
 
-all:
-	$(CC) -o build/$(TARGET) $(FILES) -L$(LIBS) -I$(INCPATH)  $(FLAGS) -std=$(STDVER)
+OBJ = init.o \
+	  utils.o \
+	  fhp.o
+
+OBJFILES:=$(SOURCES:.cpp=.o)
+OBJFILES:=$(SOURCES: src=$(DESTDIR))
+
+
+all: $(OBJ)
+	$(CC) -o $(TARGET) $(OBJFILES) $(LIBS) $(INCPATH) $(FLAGS)
+
+init.o:
+	$(CC) src/init.cpp -c -o $(DESTDIR)/init.o $(LIBS) $(INCPATH) $(FLAGS)
+
+utils.o:
+	$(CC) src/utils.cpp -c -o $(DESTDIR)/utils.o $(LIBS) $(INCPATH) $(FLAGS)
+
+fhp.o:
+	$(CC) src/fhp.cpp -c -o $(DESTDIR)/fhp.o $(LIBS) $(INCPATH) $(FLAGS)
 
 clean:
-	rm -rf *.o
+	rm -rf $(DESTDIR)/*.o $(TARGET)
