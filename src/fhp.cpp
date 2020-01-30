@@ -87,7 +87,7 @@ double velocityField(unsigned char board[height][width], int minY){
             }          
         }
     }
-    // std::cout << minY << "\t" << minY+6<< "\t";
+    // std::cout << minY << "\t" << minY+5<< "\t";
     // std::cout <<"vx: "<< vx << "\t\t <vx>: " << vx/nParticles;
     // std::cout << "\t\t vy: " <<  vy  << "\t\t <vy>: " << vy/nParticles << std::endl;
     return vx/nParticles;
@@ -101,7 +101,7 @@ int main()
     int randY = 0;
     int randDir = 0;
     int rand = 0;
-    double arrVel[1000][10];
+    double arrVel[1000][bins];
     int nArrVel = 0;
 
     std::cout << GREEN << "VARIABLES READY" << RESET << std::endl;
@@ -121,7 +121,7 @@ int main()
     std::cout << GREEN << "RANDOMNESS READY" << RESET << std::endl;
 
     // printOut(board);
-    plotData(board,0);
+    // plotData(board,0);
     // std::cout << checkNodes(board,20,height) << std::endl;
     // std::cout << checkNodes(board,width,height,width-20) << std::endl;
 
@@ -191,16 +191,16 @@ int main()
             nArrVel++;
         }
 
-        plotData(board,iters);
+        // plotData(board,iters);
         if(iters%100 == 0){
         std::cout << iters << "/" << iterations << std::endl;
         }
     }
     std::cout << GREEN << "FLOW READY" << RESET << std::endl;
 
-    double arrVelFinal[2][10];
+    double arrVelFinal[2][bins];
 
-    for(int k =0;k<(height-2)/6;k++){
+    for(int k =0;k<bins;k++){
         arrVelFinal[0][k] = k+0.5;
         arrVelFinal[1][k] = 0;
         for(int i=0;i<1000;i++){
@@ -208,7 +208,7 @@ int main()
         }
         arrVelFinal[1][k] /= 1000;
     }
-    plotFinal(arrVelFinal,11);
+    plotFinal(arrVelFinal,20);
 
     std::cout << GREEN << "FLOW DATA READY" << RESET << std::endl;
     std::cout << BOLDGREEN << "END" << RESET << std::endl;

@@ -25,6 +25,6 @@
 
 void printOut(unsigned char board[height][width]);
 void plotData(unsigned char board[height][width], int iteration);
-void plotFinal(double board[2][10], int iteration);
+void plotFinal(double board[2][bins], int iteration);
 
 #endif

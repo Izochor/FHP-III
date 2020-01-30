@@ -4,10 +4,11 @@
 #include <gsl/gsl_rng.h>
 #include <time.h>
 
-#define height 62
+#define height 86
 #define width 422
-#define iterations 10000
-#define measurement 9000
+#define bins (height-2)/6
+#define iterations 11000
+#define measurement iterations-1000
 #define leftDens 600
 #define rightDens 300
 
