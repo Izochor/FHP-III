@@ -84,13 +84,30 @@ double velocityField(unsigned char board[height][width], int minY){
                 vx -= 1;
                 vy += 1;
                 nParticles++;
-            }          
+            }
+            if(bitCheck(board[y][x],6)){//32 dobrze!
+                nParticles++;
+            }
+
         }
     }
     // std::cout << minY << "\t" << minY+5<< "\t";
     // std::cout <<"vx: "<< vx << "\t\t <vx>: " << vx/nParticles;
     // std::cout << "\t\t vy: " <<  vy  << "\t\t <vy>: " << vy/nParticles << std::endl;
     return vx/nParticles;
+}
+
+float density(unsigned char board[height][width]){
+    float dens = 0;
+    for(int i=1;i<height-2;i++){
+        for(int j=60;j<360-2;j++){
+            for(int k=0;k<8;k++){
+                dens += bitCheck(board[i][j],k);
+            }
+        }
+    }
+    int maxDens = (height-3)*(360-60);
+    return dens/maxDens;
 }
 
 int main()
@@ -192,7 +209,7 @@ int main()
         }
 
         // plotData(board,iters);
-        if(iters%100 == 0){
+        if(iters%1000 == 0){
         std::cout << iters << "/" << iterations << std::endl;
         }
     }
@@ -208,9 +225,11 @@ int main()
         }
         arrVelFinal[1][k] /= 1000;
     }
-    plotFinal(arrVelFinal,20);
+    plotFinal(arrVelFinal,22);
 
     std::cout << GREEN << "FLOW DATA READY" << RESET << std::endl;
+
+    std::cout << GREEN << "FINAL MEAN DENSITY: " << density(board) << RESET << std::endl;
     std::cout << BOLDGREEN << "END" << RESET << std::endl;
     return 0;
 }

@@ -9,8 +9,8 @@
 #define bins (height-2)/6
 #define iterations 11000
 #define measurement iterations-1000
-#define leftDens 600
-#define rightDens 300
+#define leftDens 800
+#define rightDens 400
 
 void initTable(unsigned char table[3][162]);
 void initBoard(unsigned char board[height][width]);

@@ -2,7 +2,7 @@
 
 reset
 set term epscairo enhanced color
-set output "final/wykres20.eps"
+set output "final/wykres22.eps"
 
 set key left top
 
@@ -18,7 +18,7 @@ set xtics 0,1,14
 
 set grid
 
-g='final/final20.dat'
+g='final/final22.dat'
 
 f(x) = a * x**2 + b * x + c
 
