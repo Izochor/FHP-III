@@ -1,6 +1,6 @@
 # FHP-III
 
-Simple FHP-III simulation for CFD class \
+Simple FHP-III simulation \
 a work in progress
 
 
