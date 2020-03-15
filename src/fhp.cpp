@@ -1,6 +1,4 @@
 #include <iostream>
-#include <gsl/gsl_rng.h>
-#include <time.h>
 #include <vector>
 
 #include "init.hpp"

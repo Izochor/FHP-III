@@ -23,8 +23,11 @@
 #define BOLDCYAN    "\033[1m\033[36m"      /* Bold Cyan */
 #define BOLDWHITE   "\033[1m\033[37m"      /* Bold White */
 
+// write out board to terminal 
 void printOut(unsigned char board[height][width]);
+// write out state of board to file
 void plotData(unsigned char board[height][width], int iteration);
+// write out data concerning Poisseulle flow
 void plotFinal(double board[2][bins], int iteration);
 
 #endif
