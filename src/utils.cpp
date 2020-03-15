@@ -17,7 +17,7 @@ void printOut(unsigned char board[height][width]){
 }
 
 
-void plotData(unsigned char board[height][width], int iteration)
+void writeBoard(unsigned char board[height][width], int iteration)
 {
     std::string filename = "data/data"+std::to_string(iteration)+".dat";
     std::ofstream myfile;
@@ -37,7 +37,7 @@ void plotData(unsigned char board[height][width], int iteration)
     myfile.close();
 }
 
-void plotFinal(double board[2][bins], int iteration)
+void writePoisseule(double board[2][bins], int iteration)
 {
     std::string filename = "final/final"+std::to_string(iteration)+".dat";
     std::ofstream myfile;

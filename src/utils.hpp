@@ -1,3 +1,4 @@
+// some nice colors for console and writing out data
 #ifndef UTILS_H
 #define UTILS_H 
 
@@ -26,8 +27,8 @@
 // write out board to terminal 
 void printOut(unsigned char board[height][width]);
 // write out state of board to file
-void plotData(unsigned char board[height][width], int iteration);
+void writeBoard(unsigned char board[height][width], int iteration);
 // write out data concerning Poisseulle flow
-void plotFinal(double board[2][bins], int iteration);
+void writePoisseule(double board[2][bins], int iteration);
 
 #endif

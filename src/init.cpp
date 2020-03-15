@@ -250,17 +250,6 @@ void initBlankBoard(unsigned char board[height][width]){
     }
 }
 
-int checkNodes(unsigned char board[height][width], int x, int y, int xStart, int yStart){
-    int fullNodes = 0;
-    for(int i=yStart;i<y;i++){
-        for(int j=xStart;j<x;j++){
-            for(int k=0;k<7;k++)
-            fullNodes += bitCheck(board[i][j],k);
-        }
-    }
-    return fullNodes;
-}
-
 bool bitCheck(unsigned char& node, int direction){
     return node & (1 << direction); 
 }
@@ -271,11 +260,4 @@ void bitSet(unsigned  char&  node , int pos){
 
 void bitClear(unsigned char& node, int pos){
     node &= !(1 << pos);
-}
-
-void destroy(unsigned char board[height][width]){
-    for(int i=0;i<height;i++){
-        board[i][0] = 0;
-        board[i][width-1] = 0;
-    }
 }

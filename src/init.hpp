@@ -1,3 +1,4 @@
+// initialize fhp sim and bit operations
 #ifndef INIT_H
 #define INIT_H
 
@@ -18,8 +19,6 @@ void initTable(unsigned char table[3][162]);
 void initBoard(unsigned char board[height][width]);
 // initialize truly empty board
 void initBlankBoard(unsigned char board[height][width]);
-// check number of full positions from xStart, yStart to x,y 
-int checkNodes(unsigned char board[height][width], int x, int y, int xStart = 0, int yStart = 0);
 
 // check if bit of given position(direction) is full
 bool bitCheck(unsigned char& node, int direction);
@@ -27,7 +26,5 @@ bool bitCheck(unsigned char& node, int direction);
 void bitSet(unsigned  char&  node , int pos);
 // set value of given bit to 0
 void bitClear(unsigned char& node, int pos);
-// set value of all bits in all nodes on maxX and minX positions to 0
-void destroy(unsigned char board[height][width]);
 
 #endif
