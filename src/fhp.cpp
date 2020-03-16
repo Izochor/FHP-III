@@ -55,6 +55,52 @@ int checkNodes(unsigned char board[height][width], int x, int y, int xStart, int
     return fullNodes;
 }
 
+void addParticle(unsigned char board[height][width],int trueDensity, int wantedDensity, int x){
+    //initialize random number generator
+    gsl_rng *r = gsl_rng_alloc(gsl_rng_mt19937);//ran3,r250,mt19937
+    gsl_rng_set(r,time(NULL));
+    
+    int randX = 0;
+    int randY = 0;
+    int randDir = 0;
+
+    for (int i=0;i<wantedDensity-trueDensity;i++){
+        randX = gsl_rng_uniform_int(r,20) + x;
+        randY = gsl_rng_uniform_int(r,height-2) + 1;
+        randDir = gsl_rng_uniform_int(r,6);
+
+        while(bitCheck(board[randY][randX],randDir) == 1){
+            randX = gsl_rng_uniform_int(r,20) + x;
+            randY = gsl_rng_uniform_int(r,height-2) + 1;  
+            randDir = gsl_rng_uniform_int(r,6);
+        }
+        bitSet(board[randY][randX],randDir);
+    }
+}
+
+void substactParticle(unsigned char board[height][width],int trueDensity, int wantedDensity, int x){
+    //initialize random number generator
+    gsl_rng *r = gsl_rng_alloc(gsl_rng_mt19937);//ran3,r250,mt19937
+    gsl_rng_set(r,time(NULL));
+    
+    int randX = 0;
+    int randY = 0;
+    int randDir = 0;
+
+    for (int i=0;i<trueDensity - wantedDensity;i++){
+        randX = gsl_rng_uniform_int(r,20) + x;
+        randY = gsl_rng_uniform_int(r,height-2) + 1;
+        randDir = gsl_rng_uniform_int(r,6);
+
+        while(bitCheck(board[randY][randX],randDir) == 0){
+            randX = gsl_rng_uniform_int(r,20) + x;
+            randY = gsl_rng_uniform_int(r,height-2) + 1;  
+            randDir = gsl_rng_uniform_int(r,6);
+        }
+        bitClear(board[randY][randX],randDir);
+    }
+}
+
 void destroy(unsigned char board[height][width]){
     for(int i=0;i<height;i++){
         board[i][0] = 0;

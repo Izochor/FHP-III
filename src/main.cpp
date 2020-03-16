@@ -26,7 +26,7 @@ int main()
     initBoard(board);
     std::cout << GREEN << "BOARD READY" << RESET << std::endl;
 
-    //inicjalizacja generatora liczby losowej
+    //initialize random number generator
     gsl_rng *r = gsl_rng_alloc(gsl_rng_mt19937);//ran3,r250,mt19937
     gsl_rng_set(r,time(NULL));
 
@@ -51,11 +51,11 @@ int main()
 
         for(int i=0;i<height;i++){
             for(int j=0;j<width;j++){
-                board[i][j] = blank[i][j];
+                board[i][j] = blank[i][j]; //copy main board to tmp board
             }
         }
 
-        destroy(board); // destroy wandering particles
+        destroy(board); // destroy off board particles
 
         for(int i=0;i<height;i++){
             for(int j=0;j<width;j++){
@@ -64,46 +64,28 @@ int main()
             }
         }
 
-        int leftNodes = checkNodes(board,21,height,1); //check number of nodes
+        int leftNodes = checkNodes(board,21,height,1); //check number of nodes on the left
         if( leftNodes < leftDens){
-            for (int i=0;i<leftDens-leftNodes;i++){
-                randX = gsl_rng_uniform_int(r,20) + 1;
-                randY = gsl_rng_uniform_int(r,height-2) + 1;
-                randDir = gsl_rng_uniform_int(r,6);
-
-                while(bitCheck(board[randY][randX],randDir) == 1){
-                    randX = gsl_rng_uniform_int(r,20) + 1;
-                    randY = gsl_rng_uniform_int(r,height-2) + 1;  
-                    randDir = gsl_rng_uniform_int(r,6);
-                }
-                bitSet(board[randY][randX],randDir);
-            }
+            addParticle(board,leftNodes,leftDens,1); // add
+        } else {
+            substactParticle(board,leftNodes,leftDens,1);// subtract
         }
 
-        int rightNodes = checkNodes(board,width-1,height,width-21); 
+        int rightNodes = checkNodes(board,width-1,height,width-21); //check number of nodes on the right
         if( rightNodes < rightDens){
-            for (int i=0;i<rightDens-rightNodes;i++){
-                randX = gsl_rng_uniform_int(r,20)+width-21;
-                randY = gsl_rng_uniform_int(r,height-2) + 1;
-                randDir = gsl_rng_uniform_int(r,6);
-
-                while(bitCheck(board[randY][randX],randDir) == 1){
-                    randX = gsl_rng_uniform_int(r,20)+width-21;
-                    randY = gsl_rng_uniform_int(r,height-2) + 1;  
-                    randDir = gsl_rng_uniform_int(r,6);
-                }
-                bitSet(board[randY][randX],randDir);
-            }
+            addParticle(board,rightNodes,rightDens,width-21);// add
+        } else {
+            substactParticle(board,rightNodes,rightDens,width-21);// subtract
         }
+
 
         if(iters>measurement){
             for(int y=1, i=0;y<height-1;y+=6,i++){
-                arrVel[nArrVel][i] = velXSector(board,y);
+                arrVel[nArrVel][i] = velXSector(board,y); //measure velX in sectors
             }
             nArrVel++;
         }
 
-        // plotData(board,iters);
         if(iters%1000 == 0){
         std::cout << iters << "/" << iterations << std::endl;
         }

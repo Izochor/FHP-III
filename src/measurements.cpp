@@ -47,6 +47,50 @@ double velXSector(unsigned char board[height][width], int minY){
     return vx/nParticles;
 }
 
+void velField(unsigned char board[height][width],float velBoardX[height][width],float velBoardY[height][width]){
+    int nParticles = 0;
+
+    for(int y=0;y<height;y++){
+        for(int x=0;x<width;x++){
+            nParticles = 0;
+            if(bitCheck(board[y][x],0)){//1 dobrze!
+                velBoardX[y][x] += 1;
+                velBoardY[y][x] += 1;
+                nParticles++;
+            }
+            if(bitCheck(board[y][x],1)){//2 dobrze!
+                velBoardX[y][x] += 1;
+                nParticles++;
+            }
+            if(bitCheck(board[y][x],2)){//4 dobrze!
+                velBoardX[y][x] += 1;
+                velBoardY[y][x] -= 1;
+                nParticles++;
+            }
+            if(bitCheck(board[y][x],3)){//8 dobrze!
+                velBoardX[y][x] -= 1;
+                velBoardY[y][x] -= 1;
+                nParticles++;
+            }
+            if(bitCheck(board[y][x],4)){//16 dobrze!
+                velBoardX[y][x] -= 1;
+                nParticles++;
+            }
+            if(bitCheck(board[y][x],5)){//32 dobrze!
+                velBoardX[y][x] -= 1;
+                velBoardY[y][x] += 1;
+                nParticles++;
+            }
+            if(bitCheck(board[y][x],6)){//32 dobrze!
+                nParticles++;
+            }
+            velBoardX[y][x] /= nParticles;
+            velBoardY[y][x] /= nParticles;
+        }
+    }
+
+}
+
 float density(unsigned char board[height][width]){
     float dens = 0;
     for(int i=1;i<height-2;i++){
