@@ -133,16 +133,17 @@ void initTable(unsigned char table[3][162]){
     table[1][124] = 124;
     table[1][125] = 125;
     table[1][126] = 126;
-    table[1][127] = 127;
-    table[1][128] = 128;
-    table[1][129] = 136;
-    table[1][130] = 144;//zakomentowane?
-    table[1][132] = 160;//zakomentowane?
-    table[1][136] = 129;//zakomentowane?
-    table[1][140] = 161;
-    table[1][144] = 130;//zakomentowane?
-    table[1][160] = 132;//zakomentowane?
-    table[1][161] = 140;
+    table[1][127] = 127;//end of original tabelau
+    
+    table[1][128] = 128;//
+    table[1][129] = 136;//
+    table[1][130] = 144;//
+    table[1][132] = 160;//
+    table[1][136] = 129;//
+    table[1][140] = 161;//
+    table[1][144] = 130;//
+    table[1][160] = 132;//
+    table[1][161] = 140;//
 
     for (int i=0;i<162;i++){
         table[2][i]=table[1][i];

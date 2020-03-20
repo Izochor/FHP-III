@@ -14,6 +14,7 @@ int main()
     int randDir = 0;
     int rand = 0;
     double arrVel[1000][bins];
+    float arrConverge[iterations];
     int nArrVel = 0;
 
     std::cout << GREEN << "VARIABLES READY" << RESET << std::endl;
@@ -31,11 +32,6 @@ int main()
     gsl_rng_set(r,time(NULL));
 
     std::cout << GREEN << "RANDOMNESS READY" << RESET << std::endl;
-
-    // printOut(board);
-    // plotData(board,0);
-    // std::cout << checkNodes(board,20,height) << std::endl;
-    // std::cout << checkNodes(board,width,height,width-20) << std::endl;
 
     std::cout << GREEN << "FLOW: " << iterations << " ITERATIONS" << RESET << std::endl;
     unsigned char blank[height][width];
@@ -78,7 +74,7 @@ int main()
             substactParticle(board,rightNodes,rightDens,width-21);// subtract
         }
 
-
+        arrConverge[iters] = converge(board);
         if(iters>measurement){
             for(int y=1, i=0;y<height-1;y+=6,i++){
                 arrVel[nArrVel][i] = velXSector(board,y); //measure velX in sectors
@@ -88,6 +84,7 @@ int main()
 
         if(iters%1000 == 0){
         std::cout << iters << "/" << iterations << std::endl;
+        std::cout << BLUE << abs(arrConverge[iters]/arrConverge[iters-150]-1) << RESET << std::endl;
         }
     }
     std::cout << GREEN << "FLOW READY" << RESET << std::endl;

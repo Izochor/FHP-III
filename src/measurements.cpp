@@ -100,6 +100,49 @@ float density(unsigned char board[height][width]){
             }
         }
     }
-    int maxDens = (height-3)*(360-60);
+    int maxDens = (height-2)*300*7;//height*width*capacity_of_node
     return dens/maxDens;
+}
+
+float converge(unsigned char board[height][width]){
+    float dens = 0; //density
+    int vx = 0; //velocity in x axis
+    float result = 0;
+
+    for(int i=1;i<height-2;i++){
+        for(int j=60;j<360-2;j++){
+
+            dens = 0;
+            vx = 0;
+
+            for(int k=0;k<8;k++){
+                dens += bitCheck(board[i][j],k);
+            }
+            if(bitCheck(board[j][i],0)){//1 dobrze!
+                vx += 1;
+            }
+            if(bitCheck(board[j][i],1)){//2 dobrze!
+                vx += 1;
+            }
+            if(bitCheck(board[j][i],2)){//4 dobrze!
+                vx += 1;
+            }
+            if(bitCheck(board[j][i],3)){//8 dobrze!
+                vx -= 1;
+            }
+            if(bitCheck(board[j][i],4)){//16 dobrze!
+                vx -= 1;
+            }
+            if(bitCheck(board[j][i],5)){//32 dobrze!
+                vx -= 1;
+            }
+            
+            dens /= 7;
+            result += abs(dens*vx);
+
+        }
+    }
+    result /= density(board);
+
+    return result;
 }
