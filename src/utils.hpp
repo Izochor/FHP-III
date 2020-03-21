@@ -30,5 +30,7 @@ void printOut(unsigned char board[height][width]);
 void writeBoard(unsigned char board[height][width], int iteration);
 // write out data concerning Poisseulle flow
 void writePoisseule(double board[2][bins], int iteration);
+// writes convergance data to a file
+void writeConverge(float arrConv[iterations], int name);
 
 #endif

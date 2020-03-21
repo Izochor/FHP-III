@@ -47,3 +47,13 @@ void writePoisseule(double board[2][bins], int iteration)
     }
     myfile.close();
 }
+
+void writeConverge(float arrConv[iterations], int name){
+    std::string filename = "converge/converge"+std::to_string(name)+".dat";
+    std::ofstream myfile;
+    myfile.open (filename.c_str());
+    for(int j=0;j<iterations;j++){
+        myfile << j << "\t" << arrConv[j] << std::endl;
+    }
+    myfile.close();    
+}
