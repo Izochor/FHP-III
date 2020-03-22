@@ -146,3 +146,12 @@ float converge(unsigned char board[height][width]){
 
     return result;
 }
+
+bool ifConverge(float valConv1, float valConv150, float parConv=0.01){
+    float converge = 0;
+    converge = abs(valConv1/valConv150-1);
+    if(converge < parConv)
+        return true;
+    else
+        return false;
+}
