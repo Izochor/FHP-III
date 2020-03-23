@@ -52,8 +52,8 @@ void writeConverge(float arrConv[iterations], int name){
     std::string filename = "converge/converge"+std::to_string(name)+".dat";
     std::ofstream myfile;
     myfile.open (filename.c_str());
-    for(int j=0;j<iterations;j++){
-        myfile << j << "\t" << arrConv[j] << std::endl;
+    for(int j=0;j<iterations-150;j++){
+        myfile << j << "\t" << abs(arrConv[j]/arrConv[j+150]-1) << std::endl;
     }
     myfile.close();    
 }

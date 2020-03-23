@@ -84,7 +84,7 @@ int main()
 
         if(iters%1000 == 0){
         std::cout << iters << "/" << iterations << std::endl;
-        std::cout << BLUE << abs(arrConverge[iters]/arrConverge[iters-150]-1) << RESET << std::endl;
+        std::cout << BLUE << abs(arrConverge[iters-150]/arrConverge[iters]-1) << RESET << std::endl;
         }
     }
     std::cout << GREEN << "FLOW READY" << RESET << std::endl;
@@ -100,6 +100,7 @@ int main()
         arrVelFinal[1][k] /= 1000;
     }
     writePoisseule(arrVelFinal,22);
+    writeConverge(arrConverge,22);
 
     std::cout << GREEN << "FLOW DATA READY" << RESET << std::endl;
 
