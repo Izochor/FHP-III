@@ -1,7 +1,10 @@
-# FHP-III
+# FHP-III visualization
 
-Simple FHP-III simulation \
-a work in progress
+DONE
 
+* FHP-III model implmentation
 
-important variables declaration in init.hpp
+TODO
+
+* multi-thread calculations
+* QT visualization
