@@ -8,7 +8,7 @@
 #define height 86
 #define width 422
 #define bins (height-2)/6
-#define iterations 11000
+#define iterations 5000
 #define measurement iterations-1000
 #define leftDens 4000
 #define rightDens 2000

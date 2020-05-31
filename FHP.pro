@@ -34,7 +34,8 @@ HEADERS += \
     backend/measurements.hpp \
     backend/utils.hpp \
     mainwindow.h \
-    qcustomplot.h
+    qcustomplot.h \
+    backend/fhpmain.h
 
 FORMS += \
     mainwindow.ui
