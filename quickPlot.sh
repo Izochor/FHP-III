@@ -2,7 +2,7 @@
 
 make
 echo "make done"
-./build/fhp.o
+./build/sim
 echo "sim done"
 rm plots/*
 echo "old plots deleted"
