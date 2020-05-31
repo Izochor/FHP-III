@@ -10,8 +10,8 @@
 #define bins (height-2)/6
 #define iterations 11000
 #define measurement iterations-1000
-#define leftDens 8000
-#define rightDens 4000
+#define leftDens 4000
+#define rightDens 2000
 
 // table with collision rules
 void initTable(unsigned char table[3][162]);
