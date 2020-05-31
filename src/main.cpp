@@ -99,8 +99,8 @@ int main()
         }
         arrVelFinal[1][k] /= 1000;
     }
-    writePoisseule(arrVelFinal,22);
-    writeConverge(arrConverge,22);
+    writePoisseule(arrVelFinal,23);
+    writeConverge(arrConverge,23);
 
     std::cout << GREEN << "FLOW DATA READY" << RESET << std::endl;
 

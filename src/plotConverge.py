@@ -6,7 +6,7 @@ import csv
 def func(x, a, b, c):
     return a * x**2 + b*x +c
 
-i = 22
+i = 23
 with open("converge/converge"+str(i)+".dat", "r") as csvfile:
     plots = csv.reader(csvfile, delimiter='\t')
     x = []
