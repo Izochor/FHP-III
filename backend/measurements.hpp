@@ -1,6 +1,8 @@
 // measure things during fhp sim
 #include <iostream>
 
+#include <gsl/gsl_rng.h>
+
 #include "utils.hpp"
 
 // return velX / nParticles in a sector (minY,minY+6)

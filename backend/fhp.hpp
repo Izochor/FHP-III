@@ -2,6 +2,8 @@
 #include <iostream>
 #include <vector>
 
+#include <gsl/gsl_rng.h>
+
 #include "init.hpp"
 #include "utils.hpp"
 
