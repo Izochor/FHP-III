@@ -2,8 +2,12 @@
 #ifndef UTILS_H
 #define UTILS_H 
 
+#include <QFile>
+#include <QTextStream>
+
 #include <iostream>
 #include <fstream>
+
 #include "init.hpp"
 
 #define RESET   "\033[0m"
@@ -25,11 +29,11 @@
 #define BOLDWHITE   "\033[1m\033[37m"      /* Bold White */
 
 // write out board to terminal 
-void printOut(unsigned char board[height][width]);
+void printOut(unsigned char board[HEIGHT][WIDTH]);
 // write out state of board to file
-void writeBoard(unsigned char board[height][width], int iteration);
-// write out data concerning Poisseulle flow
-void writePoisseule(double board[2][bins], int iteration);
+void writeBoard(unsigned char board[HEIGHT][WIDTH], int iteration);
+//// write out data concerning Poisseulle flow
+//void writePoisseule(double board[2][bins], int iteration);
 // writes convergance data to a file
 void writeConverge(float arrConv[iterations], int name);
 

@@ -21,35 +21,11 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::makePlot()
+void MainWindow::makePlot(QVector<double> &x,QVector<double> &y)
 {
-//    // generate some data:
-    QVector<double> x(14), y(14); // initialize with entries 0..100
-//    for (int i=0; i<101; ++i)
-//    {
-//      x[i] = i/50.0 - 1; // x goes from -1 to 1
-//      y[i] = x[i]; // let's plot a quadratic function
-//    }
-
-    std::ifstream file("final/final23.dat");
-
-    //in need of fixes!!!
-    int i = 0;
-    float a=0,b=0;
-    while(file >> a >> b)
-    {
-        file >> a >> b;
-        x[i]=a;
-        y[i]=b;
-        i+=1;
-    }
-
     for(int j=0;j<14;j++){
         qDebug()<<j<<" "<<x[j]<<" "<<y[j];
     }
-
-    file.close();
-
 
     // create graph and assign data to it:
     ui->customPlot->addGraph();
@@ -64,8 +40,9 @@ void MainWindow::makePlot()
 void MainWindow::handleStartButton()
 {
     ui->startButton->setText("loading");
-    fhpmain();
-    MainWindow::makePlot();
+    QVector<double> x(14), y(14);
+    fhpmain(x,y);
+    MainWindow::makePlot(x,y);
     ui->startButton->setText("Start simulation");
 }
 

@@ -1,6 +1,6 @@
 #include "measurements.hpp"
 
-double velXSector(unsigned char board[height][width], int minY){
+double velXSector(unsigned char board[HEIGHT][WIDTH], int minY){
     int nParticles = 0;
     float vx = 0;
     float vy = 0;
@@ -47,11 +47,11 @@ double velXSector(unsigned char board[height][width], int minY){
     return vx/nParticles;
 }
 
-void velField(unsigned char board[height][width],float velBoardX[height][width],float velBoardY[height][width]){
+void velField(unsigned char board[HEIGHT][WIDTH],float velBoardX[HEIGHT][WIDTH],float velBoardY[HEIGHT][WIDTH]){
     int nParticles = 0;
 
-    for(int y=0;y<height;y++){
-        for(int x=0;x<width;x++){
+    for(int y=0;y<HEIGHT;y++){
+        for(int x=0;x<WIDTH;x++){
             nParticles = 0;
             if(bitCheck(board[y][x],0)){//1 dobrze!
                 velBoardX[y][x] += 1;
@@ -91,25 +91,25 @@ void velField(unsigned char board[height][width],float velBoardX[height][width],
 
 }
 
-float density(unsigned char board[height][width]){
+float density(unsigned char board[HEIGHT][WIDTH]){
     float dens = 0;
-    for(int i=1;i<height-2;i++){
+    for(int i=1;i<HEIGHT-2;i++){
         for(int j=60;j<360-2;j++){
             for(int k=0;k<8;k++){
                 dens += bitCheck(board[i][j],k);
             }
         }
     }
-    int maxDens = (height-2)*300*7;//height*width*capacity_of_node
+    int maxDens = (HEIGHT-2)*300*7;//HEIGHT*WIDTH*capacity_of_node
     return dens/maxDens;
 }
 
-float converge(unsigned char board[height][width]){
+float converge(unsigned char board[HEIGHT][WIDTH]){
     float dens = 0; //density
     int vx = 0; //velocity in x axis
     float result = 0;
 
-    for(int i=1;i<height-2;i++){
+    for(int i=1;i<HEIGHT-2;i++){
         for(int j=60;j<360-2;j++){
 
             dens = 0;

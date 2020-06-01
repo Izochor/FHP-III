@@ -5,9 +5,9 @@
 #include <gsl/gsl_rng.h>
 #include <time.h>
 
-#define height 86
-#define width 422
-#define bins (height-2)/6
+#define HEIGHT 86
+#define WIDTH 422
+#define bins (HEIGHT-2)/6
 #define iterations 5000
 #define measurement iterations-1000
 #define leftDens 4000
@@ -16,9 +16,9 @@
 // table with collision rules
 void initTable(unsigned char table[3][162]);
 // initialize board with preset conditions
-void initBoard(unsigned char board[height][width]);
+void initBoard(unsigned char board[HEIGHT][WIDTH]);
 // initialize truly empty board
-void initBlankBoard(unsigned char board[height][width]);
+void initBlankBoard(unsigned char board[HEIGHT][WIDTH]);
 
 // check if bit of given position(direction) is full
 bool bitCheck(unsigned char& node, int direction);

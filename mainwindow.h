@@ -2,8 +2,11 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include <fstream>
 #include <QDebug>
+
+#include <bits/stdc++.h>
+#include <fstream>
+
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -18,7 +21,7 @@ public:
     ~MainWindow();
 
 private slots:
-    void makePlot();
+    void makePlot(QVector<double> &x,QVector<double> &y);
     void handleStartButton();
 
 private:

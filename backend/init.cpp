@@ -199,15 +199,15 @@ void initTable(unsigned char table[3][162]){
     table[2][118] = 109;
 }
 
-void initBoard(unsigned char board[height][width]){
-    for(int i=0;i<height;i++){
-        for(int j=0;j<width;j++){
+void initBoard(unsigned char board[HEIGHT][WIDTH]){
+    for(int i=0;i<HEIGHT;i++){
+        for(int j=0;j<WIDTH;j++){
             board[i][j] = 0;
         }
     }
-    for(int j=0;j<width;j++){
+    for(int j=0;j<WIDTH;j++){
         board[0][j] = 128;
-        board[height-1][j] = 128; // pipe
+        board[HEIGHT-1][j] = 128; // pipe
     }
 
     gsl_rng *r = gsl_rng_alloc(gsl_rng_mt19937);//ran3,r250,mt19937
@@ -218,34 +218,34 @@ void initBoard(unsigned char board[height][width]){
 
     for (int i=0;i<leftDens;i++){
         randX = gsl_rng_uniform_int(r,20) + 1;
-        randY = gsl_rng_uniform_int(r,height-2) + 1;
+        randY = gsl_rng_uniform_int(r,HEIGHT-2) + 1;
         randDir = gsl_rng_uniform_int(r,6);
 
         while(bitCheck(board[randY][randX],randDir) == 1){
             randX = gsl_rng_uniform_int(r,20) +1;
-            randY = gsl_rng_uniform_int(r,height-2) + 1;
+            randY = gsl_rng_uniform_int(r,HEIGHT-2) + 1;
             randDir = gsl_rng_uniform_int(r,6);
         }
         bitSet(board[randY][randX],randDir);
     }
 
     for (int i=0;i<rightDens;i++){
-        randX = gsl_rng_uniform_int(r,20)+width-21;
-        randY = gsl_rng_uniform_int(r,height-2) + 1;
+        randX = gsl_rng_uniform_int(r,20)+WIDTH-21;
+        randY = gsl_rng_uniform_int(r,HEIGHT-2) + 1;
         randDir = gsl_rng_uniform_int(r,6);
 
         while(bitCheck(board[randY][randX],randDir) == 1){
-            randX = gsl_rng_uniform_int(r,20)+width-21;
-            randY = gsl_rng_uniform_int(r,height-2) + 1;
+            randX = gsl_rng_uniform_int(r,20)+WIDTH-21;
+            randY = gsl_rng_uniform_int(r,HEIGHT-2) + 1;
             randDir = gsl_rng_uniform_int(r,6);
         }
         bitSet(board[randY][randX],randDir);
     }
 }
 
-void initBlankBoard(unsigned char board[height][width]){
-    for(int i=0;i<height;i++){
-        for(int j=0;j<width;j++){
+void initBlankBoard(unsigned char board[HEIGHT][WIDTH]){
+    for(int i=0;i<HEIGHT;i++){
+        for(int j=0;j<WIDTH;j++){
             board[i][j] = 0;
         }
     }
