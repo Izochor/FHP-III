@@ -52,13 +52,13 @@ void writeBoard(unsigned char board[HEIGHT][WIDTH], int iteration)
 //    myfile.close();
 //}
 
-void writeConverge(float arrConv[iterations], int name){
-    QString filename = "converge/converge"+QString::number(name)+".dat";
-    QFile myfile(filename);
-    QTextStream stream(&myfile);
+//void writeConverge(float arrConv[iterations], int name){
+//    QString filename = "converge/converge"+QString::number(name)+".dat";
+//    QFile myfile(filename);
+//    QTextStream stream(&myfile);
 
-    for(int j=0;j<iterations-150;j++){
-        stream << j << "\t" << abs(arrConv[j]/arrConv[j+150]-1) << endl;
-    }
-    myfile.close();    
-}
+//    for(int j=0;j<iterations-150;j++){
+//        stream << j << "\t" << abs(arrConv[j]/arrConv[j+150]-1) << endl;
+//    }
+//    myfile.close();
+//}

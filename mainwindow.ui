@@ -46,13 +46,33 @@
      </item>
     </layout>
    </widget>
-   <widget class="QCustomPlot" name="customPlot" native="true">
+   <widget class="QCustomPlot" name="finalPlot" native="true">
     <property name="geometry">
      <rect>
-      <x>29</x>
-      <y>79</y>
-      <width>751</width>
-      <height>471</height>
+      <x>530</x>
+      <y>150</y>
+      <width>250</width>
+      <height>150</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QCustomPlot" name="convergencePlot" native="true">
+    <property name="geometry">
+     <rect>
+      <x>530</x>
+      <y>320</y>
+      <width>250</width>
+      <height>150</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QWidget" name="boardWiget" native="true">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>150</y>
+      <width>500</width>
+      <height>321</height>
      </rect>
     </property>
    </widget>
@@ -63,7 +83,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>21</height>
+     <height>22</height>
     </rect>
    </property>
   </widget>

@@ -12,6 +12,6 @@
 #include "fhp.hpp"
 #include "measurements.hpp"
 
-int fhpmain(QVector<double> &x,QVector<double> &y);
+int fhpmain(QVector<double> &x,QVector<double> &y,QVector<double> &conv);
 
 #endif // FHPMAIN_H

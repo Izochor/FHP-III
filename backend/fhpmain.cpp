@@ -1,6 +1,6 @@
 #include "fhpmain.h"
 
-int fhpmain(QVector<double> &x,QVector<double> &y)
+int fhpmain(QVector<double> &x,QVector<double> &y, QVector<double> &conv)
 {
     std::cout << BOLDGREEN << "START" << RESET << std::endl;
     
@@ -90,7 +90,11 @@ int fhpmain(QVector<double> &x,QVector<double> &y)
         y[k] /= 1000;
     }
 
-//    writeConverge(arrConverge,23);
+
+    for(int i=0;i<iterations-150;i++){
+        conv[i] = abs(arrConverge[i]/arrConverge[i+150]-1) ;
+        std::cout<<conv[i]<<std::endl;
+    }
 
     std::cout << GREEN << "FLOW DATA READY" << RESET << std::endl;
 

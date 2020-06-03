@@ -2,18 +2,34 @@
 #include "ui_mainwindow.h"
 
 #include "backend/fhpmain.h"
+#include "backend/init.hpp"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    // set axes ranges, so we see all data:
-    ui->customPlot->xAxis->setRange(0, 14);
-    ui->customPlot->yAxis->setRange(0, 1);
-//    MainWindow::makePlot();
+
+    ui->finalPlot->xAxis->setRange(0, 14);
+    ui->finalPlot->yAxis->setRange(0, 1);
+
+    ui->convergencePlot->xAxis->setRange(0,iterations-150);
+    ui->convergencePlot->yAxis->setRange(0,1);
+
+    QCPItemLine *item = new QCPItemLine(ui->convergencePlot);
+    item->setPen(QPen(Qt::red));
+    item->start->setCoords(0,0.1);
+    item->end->setCoords(iterations-150,0.1);
 
     connect(ui->startButton, SIGNAL (released()), this, SLOT (handleStartButton()));
+
+    QPalette pal = palette();
+    pal.setColor(QPalette::Background, Qt::black);
+
+    ui->boardWiget->setAutoFillBackground(true);
+    ui->boardWiget->setPalette(pal);
+    ui->boardWiget->show();
+
 }
 
 MainWindow::~MainWindow()
@@ -21,28 +37,38 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::makePlot(QVector<double> &x,QVector<double> &y)
+void MainWindow::makeFinalPlot(QVector<double> &x,QVector<double> &y)
 {
-    for(int j=0;j<14;j++){
-        qDebug()<<j<<" "<<x[j]<<" "<<y[j];
+    ui->finalPlot->addGraph();
+    ui->finalPlot->graph(0)->setData(x, y);
+    ui->finalPlot->graph(0)->setLineStyle(QCPGraph::lsNone);
+    ui->finalPlot->graph(0)->setScatterStyle(QCPScatterStyle::ssCircle);
+    ui->finalPlot->xAxis->setLabel("sectors");
+
+    ui->finalPlot->replot();
+}
+
+void MainWindow::makeConvergePlot(QVector<double> &conv)
+{
+    QVector<double> iter(iterations);
+    for(double i = 0; i<iterations;i++){
+        iter[i] = i;
     }
 
-    // create graph and assign data to it:
-    ui->customPlot->addGraph();
-    ui->customPlot->graph(0)->setData(x, y);
-    // give the axes some labels:
-    ui->customPlot->xAxis->setLabel("sectors");
-//    ui->customPlot->yAxis->setLabel(" ");
+    ui->convergencePlot->addGraph();
+    ui->convergencePlot->graph(0)->setData(iter,conv);
+    ui->convergencePlot->xAxis->setLabel("iterations");
 
-    ui->customPlot->replot();
+    ui->convergencePlot->replot();
 }
 
 void MainWindow::handleStartButton()
 {
-    ui->startButton->setText("loading");
     QVector<double> x(14), y(14);
-    fhpmain(x,y);
-    MainWindow::makePlot(x,y);
+    QVector<double> conv(iterations);
+    fhpmain(x,y,conv);
+    MainWindow::makeFinalPlot(x,y);
+    MainWindow::makeConvergePlot(conv);
     ui->startButton->setText("Start simulation");
 }
 

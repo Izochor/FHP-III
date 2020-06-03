@@ -21,7 +21,9 @@ public:
     ~MainWindow();
 
 private slots:
-    void makePlot(QVector<double> &x,QVector<double> &y);
+    void makeFinalPlot(QVector<double> &x,QVector<double> &y);
+    void makeConvergePlot(QVector<double> &conv);
+
     void handleStartButton();
 
 private:
