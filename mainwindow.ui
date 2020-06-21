@@ -66,12 +66,12 @@
      </rect>
     </property>
    </widget>
-   <widget class="QWidget" name="boardWiget" native="true">
+   <widget class="QCustomPlot" name="boardPlot" native="true">
     <property name="geometry">
      <rect>
       <x>30</x>
       <y>150</y>
-      <width>500</width>
+      <width>501</width>
       <height>321</height>
      </rect>
     </property>

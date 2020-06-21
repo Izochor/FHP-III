@@ -4,11 +4,16 @@
 #include "backend/fhpmain.h"
 #include "backend/init.hpp"
 
-MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent)
+MainWindow::MainWindow(QWidget *parent,QPainter *painter)
+    : QMainWindow(parent),painter(painter)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+
+    ui->boardPlot->xAxis->setTicks(false);
+    ui->boardPlot->yAxis->setTicks(false);
+    ui->boardPlot->xAxis->setTickLabels(false);
+    ui->boardPlot->yAxis->setTickLabels(false);
 
     ui->finalPlot->xAxis->setRange(0, 14);
     ui->finalPlot->yAxis->setRange(0, 1);
@@ -22,13 +27,6 @@ MainWindow::MainWindow(QWidget *parent)
     item->end->setCoords(iterations-150,0.1);
 
     connect(ui->startButton, SIGNAL (released()), this, SLOT (handleStartButton()));
-
-    QPalette pal = palette();
-    pal.setColor(QPalette::Background, Qt::black);
-
-    ui->boardWiget->setAutoFillBackground(true);
-    ui->boardWiget->setPalette(pal);
-    ui->boardWiget->show();
 
 }
 
@@ -48,7 +46,7 @@ void MainWindow::makeFinalPlot(QVector<double> &x,QVector<double> &y)
     ui->finalPlot->replot();
 }
 
-void MainWindow::makeConvergePlot(QVector<double> &conv)
+void MainWindow::makeConvergePlot(QVector<double> &conv,int finalIter)
 {
     QVector<double> iter(iterations);
     for(double i = 0; i<iterations;i++){
@@ -58,6 +56,7 @@ void MainWindow::makeConvergePlot(QVector<double> &conv)
     ui->convergencePlot->addGraph();
     ui->convergencePlot->graph(0)->setData(iter,conv);
     ui->convergencePlot->xAxis->setLabel("iterations");
+    ui->convergencePlot->xAxis->setRange(0,finalIter-150);
 
     ui->convergencePlot->replot();
 }
@@ -66,9 +65,44 @@ void MainWindow::handleStartButton()
 {
     QVector<double> x(14), y(14);
     QVector<double> conv(iterations);
-    fhpmain(x,y,conv);
+    double board[HEIGHT][WIDTH];
+    int finalIter = 1000;
+
+    fhpmain(x,y,conv,board,finalIter);
     MainWindow::makeFinalPlot(x,y);
-    MainWindow::makeConvergePlot(conv);
+    MainWindow::makeConvergePlot(conv,finalIter);
+    MainWindow::plotBoard(board);
     ui->startButton->setText("Start simulation");
 }
 
+void MainWindow::plotBoard(double board[HEIGHT][WIDTH]){
+
+    ui->boardPlot->setInteractions(QCP::iRangeDrag|QCP::iRangeZoom);
+    ui->boardPlot->axisRect()->setupFullAxesBox(true);
+
+    QCPColorMap *colorMap = new QCPColorMap(ui->boardPlot->xAxis, ui->boardPlot->yAxis);
+
+    colorMap->data()->setSize(300, HEIGHT-2);
+    colorMap->data()->setRange(QCPRange(0, 300), QCPRange(0, HEIGHT-2));
+    double x, y, z;
+    for (int xIndex=0; xIndex<300; ++xIndex)
+    {
+      for (int yIndex=0; yIndex<HEIGHT-2; ++yIndex)
+      {
+        colorMap->data()->cellToCoord(xIndex, yIndex, &x, &y);
+        z = board[yIndex+1][xIndex+60];
+        colorMap->data()->setCell(xIndex, yIndex, z);
+      }
+    }
+
+    QCPColorScale *colorScale = new QCPColorScale(ui->boardPlot);
+
+    colorMap->setGradient(QCPColorGradient::gpSpectrum);
+    colorMap->setInterpolate(true);
+
+    colorMap->rescaleDataRange();
+
+    ui->boardPlot->rescaleAxes();
+    ui->boardPlot->replot();
+
+}

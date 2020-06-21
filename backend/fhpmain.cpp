@@ -1,13 +1,14 @@
 #include "fhpmain.h"
 
-int fhpmain(QVector<double> &x,QVector<double> &y, QVector<double> &conv)
+int fhpmain(QVector<double> &x,QVector<double> &y, QVector<double> &conv, double boardFinal[HEIGHT][WIDTH], int &finalIter)
 {
     std::cout << BOLDGREEN << "START" << RESET << std::endl;
     
     int rand = 0;
-    double arrVel[1000][bins];
+    double arrVel[iterations][bins];
     float arrConverge[iterations];
-    int nArrVel = 0;
+    int lastIter = 0;
+    int convCounter = 0;
 
     std::cout << GREEN << "VARIABLES READY" << RESET << std::endl;
 
@@ -67,16 +68,25 @@ int fhpmain(QVector<double> &x,QVector<double> &y, QVector<double> &conv)
         }
 
         arrConverge[iters] = converge(board);
-        if(iters>measurement){
-            for(int y=1, i=0;y<HEIGHT-1;y+=6,i++){
-                arrVel[nArrVel][i] = velXSector(board,y); //measure velX in sectors
-            }
-            nArrVel++;
+
+        for(int y=1, i=0;y<HEIGHT-1;y+=6,i++){
+            arrVel[iters][i] = velXSector(board,y); //measure velX in sectors
         }
 
         if(iters%1000 == 0){
         std::cout << iters << "/" << iterations << std::endl;
         std::cout << BLUE << abs(arrConverge[iters-150]/arrConverge[iters]-1) << RESET << std::endl;
+        }
+
+        if(abs(arrConverge[iters-150]/arrConverge[iters]-1)<0.1){
+            convCounter += 1;
+        }else{
+            convCounter = 0;
+        }
+
+        if(convCounter == 500){
+            lastIter = iters;
+            break;
         }
     }
     std::cout << GREEN << "FLOW READY" << RESET << std::endl;
@@ -84,17 +94,31 @@ int fhpmain(QVector<double> &x,QVector<double> &y, QVector<double> &conv)
     for(int k =0;k<bins;k++){
         x[k] = k+0.5;
         y[k] = 0;
-        for(int i=0;i<1000;i++){
+        for(int i=lastIter-500;i<lastIter;i++){
             y[k] += arrVel[i][k];
         }
-        y[k] /= 1000;
+        y[k] /= 500;
     }
-
+    finalIter = lastIter;
 
     for(int i=0;i<iterations-150;i++){
         conv[i] = abs(arrConverge[i]/arrConverge[i+150]-1) ;
-        std::cout<<conv[i]<<std::endl;
+//        std::cout<<conv[i]<<std::endl;
     }
+
+    float arrVelX[HEIGHT][WIDTH];
+    float arrVelY[HEIGHT][WIDTH];
+    velField(board,arrVelX,arrVelY);
+
+    for(int i=0;i<HEIGHT;i++){
+        for(int j=0;j<WIDTH;j++){
+            boardFinal[i][j] = arrVelX[i][j];
+        }
+    }
+
+//    writeBoard(board,0);
+//    printOut(board);
+
 
     std::cout << GREEN << "FLOW DATA READY" << RESET << std::endl;
 

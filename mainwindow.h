@@ -3,10 +3,12 @@
 
 #include <QMainWindow>
 #include <QDebug>
+#include <QPainter>
 
 #include <bits/stdc++.h>
 #include <fstream>
 
+#include "backend/init.hpp"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -17,12 +19,14 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    MainWindow(QWidget *parent = nullptr);
+    MainWindow(QWidget *parent = nullptr,QPainter *painter = nullptr);
     ~MainWindow();
+    QPainter *painter;
 
 private slots:
     void makeFinalPlot(QVector<double> &x,QVector<double> &y);
-    void makeConvergePlot(QVector<double> &conv);
+    void makeConvergePlot(QVector<double> &conv, int finalIter);
+    void plotBoard(double board[HEIGHT][WIDTH]);
 
     void handleStartButton();
 
