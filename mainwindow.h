@@ -4,6 +4,8 @@
 #include <QMainWindow>
 #include <QDebug>
 #include <QPainter>
+#include <QtConcurrent/QtConcurrent>
+#include <QThread>
 
 #include <bits/stdc++.h>
 #include <fstream>
@@ -19,9 +21,8 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    MainWindow(QWidget *parent = nullptr,QPainter *painter = nullptr);
+    MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
-    QPainter *painter;
 
 private slots:
     void makeFinalPlot(QVector<double> &x,QVector<double> &y);

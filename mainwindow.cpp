@@ -4,8 +4,8 @@
 #include "backend/fhpmain.h"
 #include "backend/init.hpp"
 
-MainWindow::MainWindow(QWidget *parent,QPainter *painter)
-    : QMainWindow(parent),painter(painter)
+MainWindow::MainWindow(QWidget *parent)
+    : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
@@ -14,17 +14,6 @@ MainWindow::MainWindow(QWidget *parent,QPainter *painter)
     ui->boardPlot->yAxis->setTicks(false);
     ui->boardPlot->xAxis->setTickLabels(false);
     ui->boardPlot->yAxis->setTickLabels(false);
-
-    ui->finalPlot->xAxis->setRange(0, 14);
-    ui->finalPlot->yAxis->setRange(0, 1);
-
-    ui->convergencePlot->xAxis->setRange(0,iterations-150);
-    ui->convergencePlot->yAxis->setRange(0,1);
-
-    QCPItemLine *item = new QCPItemLine(ui->convergencePlot);
-    item->setPen(QPen(Qt::red));
-    item->start->setCoords(0,0.1);
-    item->end->setCoords(iterations-150,0.1);
 
     connect(ui->startButton, SIGNAL (released()), this, SLOT (handleStartButton()));
 
@@ -37,6 +26,8 @@ MainWindow::~MainWindow()
 
 void MainWindow::makeFinalPlot(QVector<double> &x,QVector<double> &y)
 {
+    ui->finalPlot->xAxis->setRange(0, 14);
+    ui->finalPlot->yAxis->setRange(0, 1);
     ui->finalPlot->addGraph();
     ui->finalPlot->graph(0)->setData(x, y);
     ui->finalPlot->graph(0)->setLineStyle(QCPGraph::lsNone);
@@ -53,10 +44,16 @@ void MainWindow::makeConvergePlot(QVector<double> &conv,int finalIter)
         iter[i] = i;
     }
 
+    ui->convergencePlot->yAxis->setRange(0,1);
     ui->convergencePlot->addGraph();
     ui->convergencePlot->graph(0)->setData(iter,conv);
     ui->convergencePlot->xAxis->setLabel("iterations");
     ui->convergencePlot->xAxis->setRange(0,finalIter-150);
+
+    QCPItemLine *item = new QCPItemLine(ui->convergencePlot);
+    item->setPen(QPen(Qt::red));
+    item->start->setCoords(0,0.1);
+    item->end->setCoords(finalIter-150,0.1);
 
     ui->convergencePlot->replot();
 }
@@ -69,10 +66,13 @@ void MainWindow::handleStartButton()
     int finalIter = 1000;
 
     fhpmain(x,y,conv,board,finalIter);
-    MainWindow::makeFinalPlot(x,y);
-    MainWindow::makeConvergePlot(conv,finalIter);
+
+    QFuture<void> future1 = QtConcurrent::run(this,&MainWindow::makeFinalPlot,x,y);
+    QFuture<void> future2 = QtConcurrent::run(this,&MainWindow::makeConvergePlot,conv,finalIter);
+//    MainWindow::makeFinalPlot(x,y);
+//    MainWindow::makeConvergePlot(conv,finalIter);
     MainWindow::plotBoard(board);
-    ui->startButton->setText("Start simulation");
+
 }
 
 void MainWindow::plotBoard(double board[HEIGHT][WIDTH]){
