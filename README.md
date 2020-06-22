@@ -3,8 +3,10 @@
 DONE
 
 * FHP-III model implmentation
-
-TODO
-
 * multi-thread calculations
-* QT visualization
+* flow visualization
+* gui
+
+NOT DONE
+* obstacle insertion
+
